@@ -49,54 +49,73 @@ df_new_cases = df_new_cases.loc[(df_new_cases['date']>=start_date) & (df_new_cas
 df['new_cases'] = df_new_cases['new_cases'].values
 
 
+
+#################### normalizing data
+#cols_to_norm = ["C1_School closing","C2_Workplace closing","C3_Cancel public events","C4_Restrictions on gatherings",
+#    "C5_Close public transport","C6_Stay at home requirements","C7_Restrictions on internal movement"]
+#df[cols_to_norm] = df[cols_to_norm].apply(lambda x: (x - x.min()) / (x.max() - x.min()))
+
 ##################### Line chart
 
-# fig = go.Figure()
+# plotly setup and traces
+fig = go.Figure()
 
-# fig.add_trace(
-#     go.Scatter(
-#         x=df['Date'],
-#         y=df['new_cases'],
-#         mode='lines',
-#         marker=dict(color='blue')
 
-# # Set title
-# fig.update_layout(
-#     title_text="Time series with range slider and selectors"
-# )
 
-# # Add range slider
-# fig.update_layout(
-#     xaxis=dict(
-#         rangeselector=dict(
-#             buttons=list([
-#                 dict(count=1,
-#                      label="1m",
-#                      step="month",
-#                      stepmode="backward"),
-#                 dict(count=6,
-#                      label="6m",
-#                      step="month",
-#                      stepmode="backward"),
-#                 dict(count=1,
-#                      label="YTD",
-#                      step="year",
-#                      stepmode="todate"),
-#                 dict(count=1,
-#                      label="1y",
-#                      step="year",
-#                      stepmode="backward"),
-#                 dict(step="all")
-#             ])
-#         ),
-#         rangeslider=dict(
-#             visible=True
-#         ),
-#         type="date"
-#     )
-# )
+fig.add_trace(go.Scatter(
+    x=df['Date'],
+    y=df['new_cases'],
+    mode='lines',
+    marker=dict(color='blue'),
+    name="new_cases"
+    ))
 
-# fig.show()
+
+fig.add_trace(go.Scatter(x=["2020-01-30", "2020-01-30"],
+                         y=[0,6000],
+                         mode="lines",
+                         legendgroup="a",
+                         showlegend=False,
+                         marker=dict(size=12,line=dict(width=0.8),
+                                     color="green"),
+                         name="Median Total"
+                            ))
+
+# Add range slider
+fig.update_layout(
+    width=800,
+    xaxis=dict(
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1,
+                      label="1m",
+                      step="month",
+                      stepmode="backward"),
+                dict(count=6,
+                      label="6m",
+                      step="month",
+                      stepmode="backward"),
+                dict(count=1,
+                      label="YTD",
+                      step="year",
+                      stepmode="todate"),
+                dict(count=1,
+                      label="1y",
+                      step="year",
+                      stepmode="backward"),
+                dict(step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=True
+        ),
+        type="date"
+    )
+)
+
+# format and show figure
+fig.show()
+
 
 
 
