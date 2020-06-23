@@ -46,6 +46,7 @@ start_date = df['Date'].iloc[0]
 total_days = df.shape[0]
 end_date = df['Date'].iloc[total_days-1]
 
+
 #extracting only dates for policy tracker
 df_new_cases = df_new_cases.loc[(df_new_cases['date']>=start_date) & (df_new_cases['date']<=end_date)]
 
@@ -166,48 +167,4 @@ for j, colName in enumerate(df.columns[2:9]):
 # plot(fig)  
 
 
-##################### old code
-
-
-
-# # set up plotly figure
-# fig = go.Figure()
-
-# # Add title and axis names
-# data1 = go.Scatter(
-#         x=df['Date'],
-#         y=df['C2_Workplace closing'],
-#         mode='markers',
-#         marker=dict(color='blue')
-#     )
-
-
-# data2 = go.Scatter(
-#         x=df['Date'],
-#         y=df['C1_School closing'],
-#         mode='markers',
-#         marker=dict(color='green')
-#     )
-
-
-# # Horizontal line shape
-# shapes=[dict(
-#         type='line',
-#         x0 = df['C1_School closing'].loc[i],
-#         y0 = i + 1,
-#         x1 = df['C1_School closing'].loc[i],
-#         y1 = i + 1,
-#         line = dict(
-#             color = 'grey',
-#             width = 2
-#         )
-#     ) for i in range(len(df['C1_School closing']))]
-
-# layout = go.Layout(
-#     #shapes = shapes,
-#     title='Lollipop Chart'
-# )
-
-# # Plot the chart
-# go.Figure([data1, data2])
 
