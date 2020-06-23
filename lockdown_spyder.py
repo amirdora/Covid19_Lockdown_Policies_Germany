@@ -13,6 +13,11 @@ from plotly.graph_objs import *
 init_notebook_mode()
 import plotly.graph_objects as go
 
+#################### Basic attributes
+
+colors = ['rgb(67,67,67)', 'rgb(115,115,115)', 'rgb(49,130,189)', 'rgb(189,189,189)']
+
+
 #################### new cases data
 dateparse = lambda x: pd.datetime.strptime(x, '%Y-%m-%d').date()
 
@@ -70,51 +75,68 @@ fig.add_trace(go.Scatter(
     name="new_cases"
     ))
 
-
-fig.add_trace(go.Scatter(x=["2020-01-30", "2020-01-30"],
-                         y=[0,6000],
-                         mode="lines",
-                         legendgroup="a",
-                         showlegend=False,
-                         marker=dict(size=12,line=dict(width=0.8),
-                                     color="green"),
-                         name="Median Total"
+########################### first lockdown for C1-C7 and date imposed
+for j, colName in enumerate(df.columns[2:9]):
+    print(colName)
+#     print(j,colName)
+    for i, row in df.iterrows():
+    
+        df_column_val = df.loc[i, colName]
+        if df_column_val>0:
+            #first lockdown data
+            date= df.loc[i, 'Date']
+            print("Date imposed: ", date)
+            print("lockdown: ",df_column_val)
+            
+            ################################ drawing verticle line on lockdown date
+            
+            fig.add_trace(go.Scatter(x=[date, date],
+                          y=[0,6000],
+                          mode="lines",
+                          marker=dict(size=12,line=dict(width=0.8),
+                                      colors[j]),
+                          name=colName
                             ))
+            
+            break
 
-# Add range slider
-fig.update_layout(
-    width=800,
-    xaxis=dict(
-        rangeselector=dict(
-            buttons=list([
-                dict(count=1,
-                      label="1m",
-                      step="month",
-                      stepmode="backward"),
-                dict(count=6,
-                      label="6m",
-                      step="month",
-                      stepmode="backward"),
-                dict(count=1,
-                      label="YTD",
-                      step="year",
-                      stepmode="todate"),
-                dict(count=1,
-                      label="1y",
-                      step="year",
-                      stepmode="backward"),
-                dict(step="all")
-            ])
-        ),
-        rangeslider=dict(
-            visible=True
-        ),
-        type="date"
-    )
-)
+        
 
-# format and show figure
-fig.show()
+
+# # Add range slider
+# fig.update_layout(
+#     width=800,
+#     xaxis=dict(
+#         rangeselector=dict(
+#             buttons=list([
+#                 dict(count=1,
+#                       label="1m",
+#                       step="month",
+#                       stepmode="backward"),
+#                 dict(count=6,
+#                       label="6m",
+#                       step="month",
+#                       stepmode="backward"),
+#                 dict(count=1,
+#                       label="YTD",
+#                       step="year",
+#                       stepmode="todate"),
+#                 dict(count=1,
+#                       label="1y",
+#                       step="year",
+#                       stepmode="backward"),
+#                 dict(step="all")
+#             ])
+#         ),
+#         rangeslider=dict(
+#             visible=True
+#         ),
+#         type="date"
+#     )
+# )
+
+# # format and show figure
+# fig.show()
 
 
 
